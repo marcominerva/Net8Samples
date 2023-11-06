@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" Version="8.0.0-rc.2.23510.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ConsoleApp.BusinessLayer\ConsoleApp.BusinessLayer.csproj" />
   </ItemGroup>
 
