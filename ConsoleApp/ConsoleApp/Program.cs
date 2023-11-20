@@ -24,7 +24,7 @@
 
 
 List<int> listOfInt = new List<int>() { 1, 2, 3, 4, 5, 6 };
-List<string> ListOfString = new List<string>() { "1", "2", "3", "4", "5", "6" };
+List<string> listOfString = new List<string>() { "Marco", "Donald Duck", "Mikey Mouse" };
 
 PrintValues(listOfInt);
 
@@ -60,5 +60,5 @@ public class Product
 
     public string Name { get; set; }
 
-    public IList<string> Tags { get; set; } = new List<string>();
+    public List<string> Tags { get; set; } = new List<string>();
 }
