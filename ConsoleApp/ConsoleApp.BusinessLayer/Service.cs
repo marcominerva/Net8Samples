@@ -1,18 +1,14 @@
-﻿global using Result = (bool IsSuccess, string Message);
-
-namespace ConsoleApp.BusinessLayer;
+﻿namespace ConsoleApp.BusinessLayer;
 
 public static class Service
 {
-    public static Result Ok()
+    public static (bool IsSuccess, string? Message) Validate(string? input)
     {
-        var result = (true, "OK");
-        return result;
-    }
+        if (input is null || input.Length > 10)
+        {
+            return (false, "Input is invalid");
+        }
 
-    public static Result Fail()
-    {
-        var result = (false, "Something terrible has happened");
-        return result;
+        return (true, null);
     }
 }
