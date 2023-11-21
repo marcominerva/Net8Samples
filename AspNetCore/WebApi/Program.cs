@@ -3,7 +3,6 @@ using TinyHelpers.Http;
 using WebApi.BusinessLayer.Services;
 using WebApi.BusinessLayer.Services.Interfaces;
 using WebApi.BusinessLayer.Settings;
-using WebApi.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.local.json", optional: true);
@@ -39,8 +38,6 @@ builder.Services.AddScoped<IFileImporter, CvsImporter>();
 builder.Services.AddScoped<IFileImporter, ExcelImporter>();
 
 builder.Services.AddProblemDetails();
-builder.Services.AddExceptionHandler<ApplicationExceptionHandler>();
-builder.Services.AddExceptionHandler<DefaultExceptionHandler>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -84,8 +81,5 @@ importerApiGroup.MapPost("excel", async (IFormFile file, IFileImporter importer)
 
     return people;
 });
-
-app.MapGet("/api/exception", () => { throw new Exception("Unexpected error"); });
-app.MapGet("/api/appexception", () => { throw new ApplicationException("Application error"); });
 
 app.Run();
