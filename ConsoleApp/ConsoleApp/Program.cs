@@ -28,7 +28,7 @@ List<string> listOfString = new List<string>() { "Marco", "Donald Duck", "Mikey 
 
 PrintValues(listOfInt);
 
-var date = DateOnly.ParseExact("29/11/2023", new[] {"dd/MM/yyyy", "dd-MM-yyyy" }, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None);
+var date = DateOnly.ParseExact("29/11/2023", new[] { "dd/MM/yyyy", "dd-MM-yyyy" }, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None);
 Console.WriteLine(date);
 
 void PrintValues(IEnumerable<int> list)
