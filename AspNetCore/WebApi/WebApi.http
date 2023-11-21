@@ -1,6 +1,7 @@
 @WebApi_HostAddress = https://localhost:7159
+@City=Taggia
 
-GET {{WebApi_HostAddress}}/weatherforecast/
+GET {{WebApi_HostAddress}}/api/weatherforecast?city={{City}}
 Accept: application/json
 
 ###
