@@ -34,6 +34,9 @@ builder.Services.AddHttpClient<IWeatherService, WeatherService>(client =>
 })
 .AddHttpMessageHandler<QueryStringInjectorHttpClientHandler>();
 
+builder.Services.AddScoped<IFileImporter, CvsImporter>();
+builder.Services.AddScoped<IFileImporter, ExcelImporter>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -49,12 +52,29 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapGet("/api/weather/forecast", async (IWeatherService weatherService, string city, int days = 5) =>
+app.MapGet("/api/weatherforecast", async (IWeatherService weatherService, string city, int days = 5) =>
 {
     var forecast = await weatherService.GetForecastAsync(city, days);
     return forecast;
 })
-.WithName("GetWeatherForecast")
 .WithOpenApi();
+
+var importerApiGroup = app.MapGroup("/api/import").DisableAntiforgery();
+
+importerApiGroup.MapPost("csv", async (IFormFile file, IFileImporter importer) =>
+{
+    using var stream = file.OpenReadStream();
+    var people = await importer.ImportAsync(stream);
+
+    return people;
+});
+
+importerApiGroup.MapPost("excel", async (IFormFile file, IFileImporter importer) =>
+{
+    using var stream = file.OpenReadStream();
+    var people = await importer.ImportAsync(stream);
+
+    return people;
+});
 
 app.Run();
