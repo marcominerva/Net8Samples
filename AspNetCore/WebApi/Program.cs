@@ -89,6 +89,13 @@ app.MapPost("/api/products", (Product product) =>
 .DisableAntiforgery()
 .WithOpenApi();
 
+app.MapGet("/api/timeouts/{timeout:int}", async (int timeout = 100) =>
+{
+    await Task.Delay(timeout);
+    return TypedResults.NoContent();
+})
+.WithOpenApi();
+
 app.Run();
 
 public record class Product(string Name, double Price);
