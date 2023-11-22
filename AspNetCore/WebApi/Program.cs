@@ -82,4 +82,13 @@ importerApiGroup.MapPost("excel", async (IFormFile file, IFileImporter importer)
     return people;
 });
 
+app.MapPost("/api/products", (Product product) =>
+{
+    return TypedResults.NoContent();
+})
+.DisableAntiforgery()
+.WithOpenApi();
+
 app.Run();
+
+public record class Product(string Name, double Price);
