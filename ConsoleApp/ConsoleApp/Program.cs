@@ -14,6 +14,8 @@ Console.WriteLine(date);
 
 void PrintValues(IEnumerable<int> list)
 {
+    Console.WriteLine(list.GetType().Name);
+
     foreach (var item in list)
     {
         Console.WriteLine(item);
