@@ -1,27 +1,6 @@
 ﻿int TheAnswer = 42;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#region Collection Initializer
 
 List<int> listOfInt = new List<int>() { 1, 2, 3, 4, 5, 6 };
 List<string> listOfString = new List<string>() { "Marco", "Donald Duck", "Mikey Mouse" };
@@ -38,6 +17,8 @@ void PrintValues(IEnumerable<int> list)
         Console.WriteLine(item);
     }
 }
+
+#endregion
 
 public class Person
 {    
