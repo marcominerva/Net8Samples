@@ -6,7 +6,7 @@ using var db = new ApplicationDbContext();
 
 Console.ReadLine();
 
-public partial class ApplicationDbContext : DbContext
+public class ApplicationDbContext : DbContext
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

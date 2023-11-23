@@ -14,7 +14,7 @@ Console.WriteLine(date);
 
 void PrintValues(IEnumerable<int> list)
 {
-    Console.WriteLine(list.GetType().Name);
+    Console.WriteLine(list.GetType().FullName);
 
     foreach (var item in list)
     {
@@ -23,6 +23,8 @@ void PrintValues(IEnumerable<int> list)
 }
 
 #endregion
+
+public record class PersonRecord(string FirstName, string LastName);
 
 public class Person
 {    
@@ -36,8 +38,6 @@ public class Person
         LastName = lastName;
     }
 }
-
-public record class PersonRecord(string FirstName, string LastName);
 
 public class Product
 {
