@@ -84,7 +84,7 @@ importerApiGroup.MapPost("excel", async (IFormFile file, IFileImporter importer)
 
 app.MapPost("/api/products", (Product product) =>
 {
-    return TypedResults.NoContent();
+    return TypedResults.Ok(product);
 })
 .DisableAntiforgery()
 .WithOpenApi();
