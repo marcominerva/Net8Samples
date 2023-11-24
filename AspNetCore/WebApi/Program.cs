@@ -34,7 +34,7 @@ builder.Services.AddHttpClient<IWeatherService, WeatherService>(client =>
 })
 .AddHttpMessageHandler<QueryStringInjectorHttpClientHandler>();
 
-builder.Services.AddScoped<IFileImporter, CvsImporter>();
+builder.Services.AddScoped<IFileImporter, CsvImporter>();
 builder.Services.AddScoped<IFileImporter, ExcelImporter>();
 
 builder.Services.AddProblemDetails();

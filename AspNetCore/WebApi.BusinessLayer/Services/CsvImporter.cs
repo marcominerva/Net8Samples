@@ -3,7 +3,7 @@ using WebApi.BusinessLayer.Services.Interfaces;
 
 namespace WebApi.BusinessLayer.Services;
 
-public class CvsImporter : IFileImporter
+public class CsvImporter : IFileImporter
 {
     public async Task<IEnumerable<Person>> ImportAsync(Stream stream)
     {
