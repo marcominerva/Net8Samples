@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Mvc;
 using TinyHelpers.AspNetCore.Extensions;
 using TinyHelpers.Http;
 using WebApi.BusinessLayer.Services;
 using WebApi.BusinessLayer.Services.Interfaces;
 using WebApi.BusinessLayer.Settings;
+using WebApi.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.local.json", optional: true);
@@ -34,14 +36,17 @@ builder.Services.AddHttpClient<IWeatherService, WeatherService>(client =>
 })
 .AddHttpMessageHandler<QueryStringInjectorHttpClientHandler>();
 
-builder.Services.AddScoped<IFileImporter, CsvImporter>();
-builder.Services.AddScoped<IFileImporter, ExcelImporter>();
+builder.Services.AddKeyedScoped<IFileImporter, CsvImporter>("csv");
+builder.Services.AddKeyedScoped<IFileImporter, ExcelImporter>("excel");
 
 builder.Services.AddProblemDetails();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddExceptionHandler<ApplicationExceptionHandler>();
+builder.Services.AddExceptionHandler<DefaultExceptionHandler>();
 
 var app = builder.Build();
 
@@ -66,23 +71,33 @@ app.MapGet("/api/weatherforecast", async (IWeatherService weatherService, string
 
 var importerApiGroup = app.MapGroup("/api/import").DisableAntiforgery();
 
-importerApiGroup.MapPost("csv", async (IFormFile file, IFileImporter importer) =>
+//importerApiGroup.MapPost("csv", async (IFormFile file, [FromKeyedServices("csv")] IFileImporter importer) =>
+//{
+//    using var stream = file.OpenReadStream();
+//    var people = await importer.ImportAsync(stream);
+
+//    return people;
+//});
+
+//importerApiGroup.MapPost("excel", async (IFormFile file, [FromKeyedServices("excel")] IFileImporter importer) =>
+//{
+//    using var stream = file.OpenReadStream();
+//    var people = await importer.ImportAsync(stream);
+
+//    return people;
+//});
+
+importerApiGroup.MapPost("{type}", async (IFormFile file, string type, IServiceProvider provider) =>
 {
+    var importer = provider.GetRequiredKeyedService<IFileImporter>(type);
+
     using var stream = file.OpenReadStream();
     var people = await importer.ImportAsync(stream);
 
     return people;
 });
 
-importerApiGroup.MapPost("excel", async (IFormFile file, IFileImporter importer) =>
-{
-    using var stream = file.OpenReadStream();
-    var people = await importer.ImportAsync(stream);
-
-    return people;
-});
-
-app.MapPost("/api/products", (Product product) =>
+app.MapPost("/api/products", ([FromForm] Product product) =>
 {
     return TypedResults.Ok(product);
 })
@@ -95,6 +110,9 @@ app.MapGet("/api/timeouts/{timeout:int}", async (int timeout = 100) =>
     return TypedResults.NoContent();
 })
 .WithOpenApi();
+
+app.MapGet("/api/exception", () => { throw new Exception("Unexpected error"); });
+app.MapGet("/api/appexception", () => { throw new ApplicationException("Application error"); });
 
 app.Run();
 

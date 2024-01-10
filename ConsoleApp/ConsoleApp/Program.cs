@@ -1,15 +1,22 @@
-﻿int TheAnswer = 42;
+﻿using Intero = int;
+using Price = double;
 
+Intero TheAnswer = 42;
+Price price = 12.4;
+
+Position position = (12, 54.4324);
+
+var person = new Person("Marco", "Minerva");
 
 
 #region Collection Initializer
 
-List<int> listOfInt = new List<int>() { 1, 2, 3, 4, 5, 6 };
-List<string> listOfString = new List<string>() { "Marco", "Donald Duck", "Mikey Mouse" };
+IEnumerable<int> listOfInt = [1, 2, 3, 4, 5, 6];
+List<string> listOfString = ["Marco", "Donald Duck", "Mikey Mouse" ];
 
 PrintValues(listOfInt);
 
-var date = DateOnly.ParseExact("29/11/2023", new[] { "dd/MM/yyyy", "dd-MM-yyyy" }, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None);
+var date = DateOnly.ParseExact("29/11/2023", [ "dd/MM/yyyy", "dd-MM-yyyy" ], System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None);
 Console.WriteLine(date);
 
 void PrintValues(IEnumerable<int> list)
@@ -26,17 +33,11 @@ void PrintValues(IEnumerable<int> list)
 
 public record class PersonRecord(string FirstName, string LastName);
 
-public class Person
-{    
-    public string FirstName { get; set; }
+public class Person(string firstName, string lastName)
+{
+    public string FirstName { get; set; } = firstName;
 
-    public string LastName { get; set; }
-
-    public Person(string firstName, string lastName)
-    {
-        FirstName = firstName;
-        LastName = lastName;
-    }
+    public string LastName { get; set; } = lastName;
 }
 
 public class Product
@@ -45,5 +46,5 @@ public class Product
 
     public string Name { get; set; }
 
-    public List<string> Tags { get; set; } = new List<string>();
+    public IList<string> Tags { get; set; } = [];
 }

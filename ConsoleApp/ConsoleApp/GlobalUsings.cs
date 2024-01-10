@@ -1,0 +1,1 @@
+﻿global using Position = (double Latitude, double Longitude);

@@ -6,19 +6,8 @@ using WebApi.BusinessLayer.Services.Interfaces;
 
 namespace WebApi.BusinessLayer.Services;
 
-public class WeatherService : IWeatherService
+public class WeatherService(HttpClient httpClient, IMemoryCache cache, ILogger<WeatherService> logger) : IWeatherService
 {
-    private readonly HttpClient httpClient;
-    private readonly IMemoryCache cache;
-    private readonly ILogger<WeatherService> logger;
-
-    public WeatherService(HttpClient httpClient, IMemoryCache cache, ILogger<WeatherService> logger)
-    {
-        this.httpClient = httpClient;
-        this.cache = cache;
-        this.logger = logger;
-    }
-
     public async Task<IEnumerable<WeatherForecast>> GetForecastAsync(string city, int days)
     {
         logger.LogInformation("Getting weather condition for {City}...", city);
